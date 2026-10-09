@@ -86,7 +86,7 @@ final class ArticleUITests: XCTestCase {
         field.typeText("nonexistentkeyword")
         XCTAssertTrue(app.staticTexts["No matching articles"].waitForExistence(timeout: 5))
         capture("Search empty", app: app)
-        app.buttons["Cancel"].tap()
+        field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: "nonexistentkeyword".count))
         XCTAssertTrue(card(app).waitForExistence(timeout: 5))
     }
     func testAccessibilityTextRemainsBrowsable() {
