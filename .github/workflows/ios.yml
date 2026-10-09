@@ -5,6 +5,9 @@ on:
     paths-ignore: ["**/*.md", "Docs/**"]
   pull_request:
     paths-ignore: ["**/*.md", "Docs/**"]
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
