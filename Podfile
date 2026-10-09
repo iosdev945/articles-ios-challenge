@@ -8,7 +8,7 @@ target 'Articles' do
   pod 'Swinject', '~> 2.9'
   pod 'ReachabilitySwift', '~> 5.2'
   pod 'Kingfisher', '~> 8.0'
-  pod 'Cache', '~> 7.0'
+  pod 'Cache', '~> 6.0'
 
   target 'ArticlesTests' do
     inherit! :search_paths
