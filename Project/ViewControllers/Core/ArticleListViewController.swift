@@ -174,9 +174,15 @@ extension ArticleListViewController: UICollectionViewDataSource, UICollectionVie
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let count = CGFloat(columnCount)
+        let columns = columnCount
+        let count = CGFloat(columns)
         let width = floor((collectionView.bounds.width - 32 - (count - 1) * 12) / count)
-        return CGSize(width: width, height: ArticleCell.height(for: visibleArticles[indexPath.item], width: width, compact: columnCount > 1))
+        let rowStart = (indexPath.item / columns) * columns
+        let rowEnd = min(rowStart + columns, visibleArticles.count)
+        let height = visibleArticles[rowStart..<rowEnd].map {
+            ArticleCell.height(for: $0, width: width, compact: columns > 1)
+        }.max() ?? 0
+        return CGSize(width: width, height: height)
     }
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets { UIEdgeInsets(top: 12, left: 16, bottom: 24, right: 16) }
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { 12 }
