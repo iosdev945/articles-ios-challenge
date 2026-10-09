@@ -24,6 +24,10 @@ open Articles.xcworkspace
 
 Select the **Articles** scheme, choose an iPhone or iPad simulator, and Run. Always open the **workspace**, which includes CocoaPods. For a physical device, choose your own signing team in the app target and a unique bundle identifier if necessary. No API key is needed. Select Xcode 26 in **Settings → Locations → Command Line Tools** if multiple versions are installed.
 
+To build, install and launch directly on a simulator, run `bash Scripts/run.sh`. It prefers an already booted iPhone and installs the current build without deleting saved data. You can specify a simulator with `bash Scripts/run.sh <simulator-UDID>` (find IDs using `xcrun simctl list devices available`).
+
+If Xcode shows a blank screen or stops at a crash, stop the run, open `Articles.xcworkspace`, choose the **Articles** scheme and an iOS 18+ simulator, then use **Product → Clean Build Folder** and Run again. The launch script also replaces the installed app with a freshly built copy. If it still crashes, retain the Xcode console error and crash report so the cause can be diagnosed.
+
 Deployment target: **iOS 18.0**. Liquid Glass actions use `#available(iOS 26.0, *)`; iOS 18–25 get filled UIKit buttons. The complete suite passed on a fresh **Xcode 26.6** CI runner. Local iPhone/iPad iOS 18 validation used Xcode 27 because Xcode 26 is not installed locally.
 
 ## Features
