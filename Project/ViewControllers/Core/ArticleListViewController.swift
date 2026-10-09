@@ -42,6 +42,7 @@ final class ArticleListViewController: UIViewController {
         layoutButton.accessibilityIdentifier = "list.layout"
         navigationItem.rightBarButtonItems?.first?.accessibilityLabel = "Search articles"
         collectionView.backgroundColor = Design.paper
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self

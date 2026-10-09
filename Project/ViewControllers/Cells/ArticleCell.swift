@@ -8,7 +8,7 @@ final class ArticleCell: UICollectionViewCell {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var readLabel: UILabel!
     @IBOutlet private weak var footerStack: UIStackView!
-    @IBOutlet private weak var imageHeight: NSLayoutConstraint!
+    private var collapsedFooterHeight: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +24,7 @@ final class ArticleCell: UICollectionViewCell {
         titleLabel.adjustsFontForContentSizeCategory = true
         dateLabel.adjustsFontForContentSizeCategory = true
         readLabel.adjustsFontForContentSizeCategory = true
+        collapsedFooterHeight = footerStack.heightAnchor.constraint(equalToConstant: 0)
         isAccessibilityElement = true
         accessibilityTraits = .button
     }
@@ -35,7 +36,10 @@ final class ArticleCell: UICollectionViewCell {
         readLabel.font = Design.font(11, weight: .semibold, style: .caption1)
         readLabel.text = "  Read More  ›  "
         footerStack.isHidden = compact
-        imageHeight.constant = (width - 24) * 0.56
+        collapsedFooterHeight.isActive = compact
+        let accessibilitySize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        footerStack.axis = accessibilitySize ? .vertical : .horizontal
+        footerStack.alignment = accessibilitySize ? .leading : .center
         articleImage.load(article.imageURL)
         cardView.layer.borderWidth = selected ? 2 : 0
         cardView.layer.borderColor = Design.accent.cgColor
@@ -48,7 +52,15 @@ final class ArticleCell: UICollectionViewCell {
         let bounds = (article.displayTitle as NSString).boundingRect(
             with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
-        let footer = compact ? CGFloat(8) : max(44, Design.font(11, style: .caption1).lineHeight + 20) + 8
+        let readHeight = max(44, Design.font(11, style: .caption1).lineHeight + 20)
+        var footer = compact ? CGFloat(8) : readHeight + 8
+        if !compact && UITraitCollection.current.preferredContentSizeCategory.isAccessibilityCategory {
+            let dateFont = Design.font(10, style: .caption2)
+            let dateHeight = ("▢  \(Design.date(article.publicationDate))" as NSString).boundingRect(
+                with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: dateFont], context: nil).height
+            footer += ceil(dateHeight) + 8
+        }
         return ceil((width - 24) * 0.56 + bounds.height + 32 + footer)
     }
     override func prepareForReuse() {

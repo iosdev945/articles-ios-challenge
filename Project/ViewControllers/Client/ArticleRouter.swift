@@ -8,6 +8,7 @@ final class ArticleRouter: NSObject, UISplitViewControllerDelegate, UINavigation
     private weak var split: UISplitViewController?
     private weak var listNavigation: UINavigationController?
     private weak var currentDetail: ArticleDetailViewController?
+    private var selectedArticle: Article?
 
     init(makeList: @escaping () -> ArticleListViewController, makeDetail: @escaping () -> ArticleDetailViewController) {
         self.makeList = makeList; self.makeDetail = makeDetail
@@ -52,12 +53,18 @@ final class ArticleRouter: NSObject, UISplitViewControllerDelegate, UINavigation
     }
     private func open(_ article: Article) {
         guard let split else { return }
+        selectedArticle = article
         let detail = detailController(article)
         currentDetail = detail
-        let navigation = ArticleNavigationController(rootViewController: detail)
-        configure(navigation, detail: true)
-        split.setViewController(navigation, for: .secondary)
-        split.show(.secondary)
+        if split.isCollapsed {
+            listNavigation?.popToRootViewController(animated: false)
+            listNavigation?.pushViewController(detail, animated: true)
+        } else {
+            let navigation = ArticleNavigationController(rootViewController: detail)
+            configure(navigation, detail: true)
+            split.setViewController(navigation, for: .secondary)
+            split.show(.secondary)
+        }
     }
     private func configure(_ navigation: UINavigationController, detail: Bool) {
         let appearance = UINavigationBarAppearance()
@@ -71,7 +78,22 @@ final class ArticleRouter: NSObject, UISplitViewControllerDelegate, UINavigation
         navigation.navigationBar.tintColor = detail ? .white : Design.ink
     }
     func splitViewController(_ svc: UISplitViewController, topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column) -> UISplitViewController.Column {
-        currentDetail?.article == nil ? .primary : .secondary
+        .primary
+    }
+    func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
+        guard let selectedArticle, !(listNavigation?.topViewController is ArticleDetailViewController) else { return }
+        let detail = detailController(selectedArticle)
+        currentDetail = detail
+        listNavigation?.pushViewController(detail, animated: false)
+    }
+    func splitViewControllerDidExpand(_ svc: UISplitViewController) {
+        listNavigation?.popToRootViewController(animated: false)
+        guard let selectedArticle else { return }
+        let detail = detailController(selectedArticle)
+        currentDetail = detail
+        let navigation = ArticleNavigationController(rootViewController: detail)
+        configure(navigation, detail: true)
+        svc.setViewController(navigation, for: .secondary)
     }
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let opensDetail = toVC is ArticleDetailViewController || (toVC as? UINavigationController)?.topViewController is ArticleDetailViewController

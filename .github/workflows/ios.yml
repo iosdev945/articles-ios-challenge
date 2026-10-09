@@ -2,7 +2,9 @@ name: iOS build and tests
 on:
   push:
     branches: [main]
+    paths-ignore: ["**/*.md", "Docs/**"]
   pull_request:
+    paths-ignore: ["**/*.md", "Docs/**"]
 permissions:
   contents: read
 jobs:

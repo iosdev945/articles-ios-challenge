@@ -24,6 +24,8 @@ final class ArticleUITests: XCTestCase {
         capture("List", app: app)
         app.buttons["list.layout"].tap()
         XCTAssertTrue(app.buttons["Show list"].exists)
+        XCTAssertGreaterThanOrEqual(card(app).frame.minX, 0)
+        XCTAssertLessThanOrEqual(card(app).frame.maxX, app.frame.maxX)
         capture("Grid", app: app)
         card(app).tap()
         XCTAssertTrue(app.buttons["detail.bookmark"].waitForExistence(timeout: 5))
