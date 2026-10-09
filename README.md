@@ -2,6 +2,14 @@
 
 An iPhone and iPad article reader using **Swift, UIKit, Storyboards/XIBs and MVC**, with a hosted SwiftUI state component. It loads the supplied mock API, persists the last successful feed, and handles offline connectivity and incomplete data.
 
+## Preview
+
+<img src="Docs/Screenshots/iphone-grid.png" alt="iPhone grid with readable article titles" width="220"> <img src="Docs/Screenshots/iphone-detail.png" alt="iPhone article detail and navigation actions" width="220">
+
+<img src="Docs/Screenshots/ipad-live.png" alt="Normal iPad launch showing live API articles and downloaded images" width="640">
+
+The iPad preview uses the live API. iPhone previews use deterministic UI-test stories and intentionally exercise missing-image placeholders. [iPad detail preview](Docs/Screenshots/ipad-detail.png).
+
 ## Setup and run
 
 Requires **Xcode 26**, an iOS 18+ simulator/device, Ruby 3.3+ and Bundler. Xcode 27 is also supported. The Xcode project is committed; XcodeGen is optional.
@@ -16,7 +24,7 @@ open Articles.xcworkspace
 
 Select the **Articles** scheme, choose an iPhone or iPad simulator, and Run. Always open the **workspace**, which includes CocoaPods. For a physical device, choose your own signing team in the app target and a unique bundle identifier if necessary. No API key is needed. Select Xcode 26 in **Settings → Locations → Command Line Tools** if multiple versions are installed.
 
-Deployment target: **iOS 18.0**. Liquid Glass actions use `#available(iOS 26.0, *)`; iOS 18–25 get filled UIKit buttons. Local validation used Xcode 27 because Xcode 26 is not installed on the development machine; CI explicitly selects Xcode 26.
+Deployment target: **iOS 18.0**. Liquid Glass actions use `#available(iOS 26.0, *)`; iOS 18–25 get filled UIKit buttons. The complete suite passed on a fresh **Xcode 26.6** CI runner. Local iPhone/iPad iOS 18 validation used Xcode 27 because Xcode 26 is not installed locally.
 
 ## Features
 
@@ -97,11 +105,11 @@ Scripts/test.sh
 Scripts/test.sh SIMULATOR_UDID
 ```
 
-There are **28 unit tests** and **7 UI tests**. Unit tests cover malformed/missing data, URLs/dates, Codable identity, the captured 79-article public API fixture, real disk-cache persistence, offline/server errors, cache-write failures, concurrent refreshes, bookmarks, stubbed HTTP responses and bundled storyboard/XIB resources.
+There are **29 unit tests** and **7 UI tests**. Unit tests cover malformed/missing data, URLs/dates, Codable identity, the captured 79-article public API fixture, real disk-cache persistence, offline/server errors, cache-write failures, concurrent refreshes, bookmarks, stubbed HTTP responses and bundled storyboard/XIB resources.
 
 UI tests cover list/grid/detail/back navigation, bookmarks, search, invalid links, offline retry, cached browsing, empty/error states and maximum accessibility text size. They use Debug-only dependencies selected by `--ui-scenario=…`; normal launches use the live endpoint. Release builds contain no scenario provider. UI screenshots are attached to `.xcresult` bundles.
 
-[Validation and manual review steps](Docs/VALIDATION.md) distinguish executed checks from remaining device/design review. GitHub Actions selects Xcode 26, installs locked pods and runs the suite.
+[Validation and manual review steps](Docs/VALIDATION.md) distinguish executed checks from remaining device/design review. [GitHub Actions verification](https://github.com/iosdev945/articles-ios-challenge/actions/runs/37892146946) passed all 29 unit and 7 UI tests on Xcode 26.6 with locked pods.
 
 ## Design assumptions and further work
 
