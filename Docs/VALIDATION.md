@@ -15,7 +15,7 @@ Offline UI scenarios inject an in-memory snapshot; actual Cache persistence is t
 | iPhone 16e / iOS 18.3 | 29 unit + 7 UI tests passed |
 | iPad (A16) / iOS 18.3 | 29 unit + 7 UI tests passed; final spacing/search checks passed |
 | iPhone 18 Pro / iOS 27.0 | Not validated: simulator startup stalled |
-| Xcode 26.6 / compatible iPhone simulator in CI | 29 unit + 7 UI tests passed |
+| Xcode 26.6 / iPhone on iOS 26.5 in CI | 29 unit + 7 UI tests passed |
 
 The first iPad/modern runs were interrupted by insufficient host disk space. Task-generated failed build artifacts were removed, and subsequent runs are performed serially. This is an environment limitation, not an asserted application test pass.
 

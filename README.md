@@ -4,11 +4,11 @@ An iPhone and iPad article reader using **Swift, UIKit, Storyboards/XIBs and MVC
 
 ## Preview
 
-<img src="Docs/Screenshots/iphone-grid.png" alt="iPhone grid with readable article titles" width="220"> <img src="Docs/Screenshots/iphone-detail.png" alt="iPhone article detail and navigation actions" width="220">
+<img src="Docs/Screenshots/iphone-detail.png" alt="iPhone article detail and navigation actions" width="260">
 
 <img src="Docs/Screenshots/ipad-live.png" alt="Normal iPad launch showing live API articles and downloaded images" width="640">
 
-The iPad preview uses the live API. iPhone previews use deterministic UI-test stories and intentionally exercise missing-image placeholders. [iPad detail preview](Docs/Screenshots/ipad-detail.png).
+The iPad preview uses the live API. The iPhone detail preview uses a deterministic UI-test story and intentionally exercise missing-image placeholders. [iPad detail preview](Docs/Screenshots/ipad-detail.png).
 
 ## Setup and run
 
