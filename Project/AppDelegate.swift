@@ -13,7 +13,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     @MainActor private func configureDependencies() {
-        let logger = XCGLogger(identifier: "Articles", includeDefaultDestinations: false)
+        let logger = XCGLogger(identifier: "Articles", includeDefaultDestinations: true)
         logger.setup(level: .debug, showThreadName: true, showLevel: true, showFileNames: false, showLineNumbers: false)
         #if !DEBUG
         logger.outputLevel = .warning
