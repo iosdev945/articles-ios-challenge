@@ -49,6 +49,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     logger: resolver.resolve(XCGLogger.self)!, persistenceAvailable: persistenceAvailable)
             }
         }.inObjectScope(.container)
+        #if DEBUG
+        if let scenario = UITestScenario.current {
+            let scenarioCache = MemoryArticleCache(snapshot: scenario.saved)
+            container.register(ArticleProviding.self) { _ in scenario.provider }.inObjectScope(.container)
+            container.register(ArticleCaching.self) { _ in scenarioCache }.inObjectScope(.container)
+            container.register(ConnectivityMonitoring.self) { _ in
+                MainActor.assumeIsolated { scenario.connectivity }
+            }.inObjectScope(.container)
+        }
+        #endif
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         container.register(ArticleListViewController.self) { resolver in
             MainActor.assumeIsolated {

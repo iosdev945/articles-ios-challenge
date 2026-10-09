@@ -22,12 +22,12 @@ final class ArticleRouter: NSObject, UISplitViewControllerDelegate, UINavigation
         split.delegate = self
         let list = makeList()
         list.onSelect = { [weak self] article in self?.open(article) }
-        let navigation = UINavigationController(rootViewController: list)
+        let navigation = ArticleNavigationController(rootViewController: list)
         configure(navigation, detail: false)
         navigation.delegate = self
         split.setViewController(navigation, for: .primary)
         let placeholder = detailController(nil)
-        let detailNavigation = UINavigationController(rootViewController: placeholder)
+        let detailNavigation = ArticleNavigationController(rootViewController: placeholder)
         configure(detailNavigation, detail: true)
         split.setViewController(detailNavigation, for: .secondary)
         self.split = split
@@ -54,16 +54,17 @@ final class ArticleRouter: NSObject, UISplitViewControllerDelegate, UINavigation
         guard let split else { return }
         let detail = detailController(article)
         currentDetail = detail
-        let navigation = UINavigationController(rootViewController: detail)
+        let navigation = ArticleNavigationController(rootViewController: detail)
         configure(navigation, detail: true)
-        split.showDetailViewController(navigation, sender: self)
+        split.setViewController(navigation, for: .secondary)
+        split.show(.secondary)
     }
     private func configure(_ navigation: UINavigationController, detail: Bool) {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = detail ? Design.ink : Design.paper
         appearance.titleTextAttributes = [.foregroundColor: detail ? UIColor.white : Design.ink,
-                                           .font: Design.font(20, weight: .bold, style: .headline)]
+                                           .font: UIFont.systemFont(ofSize: 20, weight: .bold)]
         navigation.navigationBar.standardAppearance = appearance
         navigation.navigationBar.scrollEdgeAppearance = appearance
         navigation.navigationBar.compactAppearance = appearance

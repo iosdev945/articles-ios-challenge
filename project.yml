@@ -47,12 +47,23 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.rajvi.articles.tests
         GENERATE_INFOPLIST_FILE: YES
+  ArticlesUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: Articles
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rajvi.articles.uitests
+        GENERATE_INFOPLIST_FILE: YES
 schemes:
   Articles:
     build:
       targets:
         Articles: all
         ArticlesTests: [test]
+        ArticlesUITests: [test]
     test:
-      targets: [ArticlesTests]
+      targets: [ArticlesTests, ArticlesUITests]
       gatherCoverageData: true

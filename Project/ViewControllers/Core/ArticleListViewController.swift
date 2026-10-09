@@ -24,6 +24,15 @@ final class ArticleListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Articles"
+        let titleLabel = UILabel()
+        titleLabel.text = "Articles"
+        titleLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        titleLabel.textColor = Design.ink
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.accessibilityTraits = .header
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
+        navigationItem.title = ""
+        navigationItem.backButtonTitle = "Articles"
         view.backgroundColor = Design.paper
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.rightBarButtonItems = [

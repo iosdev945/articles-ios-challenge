@@ -12,6 +12,7 @@ final class ArticleDetailViewController: UIViewController {
     private lazy var bookmarkButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(bookmark))
     private lazy var shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(share))
 
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Design.ink
@@ -20,7 +21,7 @@ final class ArticleDetailViewController: UIViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = Design.ink
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: Design.font(20, weight: .bold, style: .headline)]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .bold)]
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
         navigationItem.compactAppearance = appearance

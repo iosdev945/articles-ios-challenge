@@ -48,7 +48,7 @@ final class ArticleCell: UICollectionViewCell {
         let bounds = (article.displayTitle as NSString).boundingRect(
             with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
-        let footer = compact ? CGFloat(0) : max(44, Design.font(11, style: .caption1).lineHeight + 20) + 8
+        let footer = compact ? CGFloat(8) : max(44, Design.font(11, style: .caption1).lineHeight + 20) + 8
         return ceil((width - 24) * 0.56 + bounds.height + 32 + footer)
     }
     override func prepareForReuse() {
