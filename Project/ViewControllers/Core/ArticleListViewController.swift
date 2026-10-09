@@ -26,7 +26,7 @@ final class ArticleListViewController: UIViewController {
         title = "Articles"
         let titleLabel = UILabel()
         titleLabel.text = "Articles"
-        titleLabel.font = .systemFont(ofSize: 22, weight: .bold)
+        titleLabel.font = Design.font(22, weight: .bold, style: .title2)
         titleLabel.textColor = Design.ink
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.accessibilityTraits = .header
